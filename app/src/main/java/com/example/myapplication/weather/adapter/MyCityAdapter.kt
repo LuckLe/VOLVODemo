@@ -13,7 +13,7 @@ import com.example.myapplication.weather.bean.CastItem
 class MyCityAdapter( private val context:Context, private val list:MutableList<CastItem>) : RecyclerView.Adapter<MyCityViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyCityViewHolder {
-        val binding = LayoutItem2Binding.inflate(LayoutInflater.from(context))
+        val binding = LayoutItem2Binding.inflate(LayoutInflater.from(context),parent,false)
         return MyCityViewHolder(binding)
     }
 

@@ -17,7 +17,7 @@ import com.example.myapplication.weather.bean.city.City
 class MyAdapter( private val context:Context, private val list:MutableList<Forecast>) : RecyclerView.Adapter<MyViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = LayoutItemBinding.inflate(LayoutInflater.from(context))
+        val binding = LayoutItemBinding.inflate(LayoutInflater.from(context),parent,false)
         return MyViewHolder(binding)
     }
 

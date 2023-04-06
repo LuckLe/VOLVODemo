@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+
             <TextView
                 android:id="@+id/tv_province"
                 android:layout_width="match_parent"
@@ -27,9 +28,9 @@
                 android:paddingTop="20dp"
                 android:paddingBottom="5dp"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="16dp"
+                android:paddingLeft="10dp"
                 android:textColor="#333"
-                android:textSize="8sp"
+                android:textSize="14sp"
                 android:text="@{item.provice}"
                 tools:text="安徽省"
                 />
@@ -43,11 +44,6 @@
                 android:layout_marginRight="8dp"
                 >
             </androidx.recyclerview.widget.RecyclerView>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="#eee"
-                />
         </LinearLayout>
     </LinearLayout>
 

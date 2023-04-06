@@ -16,7 +16,7 @@ import com.example.myapplication.weather.bean.city.City
 class MyCitySelectAdapter( private val context:Context, private val list:MutableList<City>) : RecyclerView.Adapter<MyCitySelectViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyCitySelectViewHolder {
-        val binding = LayoutCityItemBinding.inflate(LayoutInflater.from(context))
+        val binding = LayoutCityItemBinding.inflate(LayoutInflater.from(context),parent,false)
         return MyCitySelectViewHolder(binding)
     }
 

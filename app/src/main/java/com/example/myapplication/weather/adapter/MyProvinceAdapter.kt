@@ -15,7 +15,7 @@ import com.example.myapplication.weather.bean.city.Provice
 class MyProvinceAdapter(private val context:Context, private val list:MutableList<Provice>) : Adapter<MyProvinceViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyProvinceViewHolder {
-        val binding = LayoutProvinceItemBinding.inflate(LayoutInflater.from(context))
+        val binding = LayoutProvinceItemBinding.inflate(LayoutInflater.from(context),parent,false)
         return MyProvinceViewHolder(binding)
     }
 
