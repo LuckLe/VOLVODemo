@@ -4,16 +4,18 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.ActivityCityWheatherBinding
 import com.example.myapplication.weather.adapter.MyCityAdapter
 import com.example.myapplication.weather.api.ApiService
+import com.example.myapplication.weather.bean.CastItem
 import com.example.myapplication.weather.bean.Forecast
 import com.example.myapplication.weather.bean.WeatherBaseBean
 import com.example.myapplication.weather.bean.city.City
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import javax.inject.Inject
@@ -35,6 +37,9 @@ class CityWeatherActivity : AppCompatActivity() {
 
     lateinit var city: City
 
+    private var stateFlow = MutableStateFlow<MutableList<CastItem>>(mutableListOf())
+    private lateinit var myAdapter : MyCityAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +51,26 @@ class CityWeatherActivity : AppCompatActivity() {
 
         mBinding.tvTitle.text = city.name
 
+        mBinding.recyclerView.layoutManager = LinearLayoutManager(this@CityWeatherActivity)
+        myAdapter = MyCityAdapter(this@CityWeatherActivity)
+        mBinding.recyclerView.adapter = myAdapter
+
         dialog = ProgressDialog(this)
 
         mBinding.imgvBack.setOnClickListener { finish() }
 
+        collectDate()
+
         request()
 
+    }
+
+    private fun collectDate() {
+        lifecycleScope.launch {
+            stateFlow.collect {
+                myAdapter.setData(it)
+            }
+        }
     }
 
     private fun getIntentData() {
@@ -66,12 +85,11 @@ class CityWeatherActivity : AppCompatActivity() {
 
     private fun request() {
         showLoading()
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             var weatherBaseBean : WeatherBaseBean? = null
             weatherBaseBean = retrofit.create(ApiService::class.java).getForecastWeather(city.adcode)
             weatherBaseBean.forecasts?.get(0)?.casts?.let { list ->
-                mBinding.recyclerView.layoutManager = LinearLayoutManager(this@CityWeatherActivity)
-                mBinding.recyclerView.adapter = MyCityAdapter(this@CityWeatherActivity,list)
+                stateFlow.value = list
             }
             hindLoading()
         }

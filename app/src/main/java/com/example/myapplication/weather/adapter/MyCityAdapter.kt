@@ -10,7 +10,13 @@ import com.example.myapplication.weather.bean.CastItem
 /**
  * Created by hml on 2023/4/6.
  */
-class MyCityAdapter( private val context:Context, private val list:MutableList<CastItem>) : RecyclerView.Adapter<MyCityViewHolder>(){
+class MyCityAdapter( private val context:Context, private val list:MutableList<CastItem> = mutableListOf()) : RecyclerView.Adapter<MyCityViewHolder>(){
+
+    fun setData(newList:MutableList<CastItem>){
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyCityViewHolder {
         val binding = LayoutItem2Binding.inflate(LayoutInflater.from(context),parent,false)
