@@ -3,6 +3,7 @@ package com.example.myapplication.weather
 import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.ActivityLiveDataBinding
 import com.example.myapplication.weather.adapter.MyAdapter
@@ -10,8 +11,6 @@ import com.example.myapplication.weather.api.ApiService
 import com.example.myapplication.weather.bean.Forecast
 import com.example.myapplication.weather.bean.WeatherBaseBean
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import javax.inject.Inject
@@ -50,7 +49,7 @@ class ListActivity : AppCompatActivity() {
 
     private fun request() {
         showLoading()
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             var weatherBaseBean : WeatherBaseBean? = null
             listCityCodes.forEach { it ->
                 weatherBaseBean = retrofit.create(ApiService::class.java).getForecastWeather(it)
